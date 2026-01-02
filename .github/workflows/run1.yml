@@ -1,4 +1,4 @@
-name: 刷步数
+name: 刷步数1
 
 on:
   schedule:
@@ -26,7 +26,7 @@ jobs:
           
       - name: 开始
         env:
-            CONFIG: ${{ secrets.CONFIG }}
+            CONFIG: ${{ secrets.CONFIG1 }}
             AES_KEY: ${{ secrets.AES_KEY }}
         run: |
           pip3 install requests pytz pycryptodome
