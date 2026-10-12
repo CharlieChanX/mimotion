@@ -19,10 +19,13 @@ jobs:
         run: |
           source cron_convert.sh
           echo "configed CRON_HOURS ${{ vars.CRON_HOURS }}"
-          persist_execute_log ${{ github.event_name }} ${{ vars.CRON_HOURS }}
+          persist_execute_log ${{ github.event_name }}${{ vars.CRON_HOURS }}
           git config user.name github-actions
           git config user.email github-actions@users.noreply.github.com
           git add .
           current=`TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S'`
-          git commit -m "[${current}] random cron trigger by ${{ github.event_name }}"
+          git commit -m "[${current}] random cron trigger by${{ github.event_name }}" || echo "No changes to commit"
+          
+          # 🛡️ 加上拉取变基，防止多任务并发推送时冲突报错
+          git pull origin master --rebase || echo "Pull failed or skipped"
           git push origin master
