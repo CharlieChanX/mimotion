@@ -27,5 +27,7 @@ jobs:
           git commit -m "[${current}] random cron trigger by${{ github.event_name }}" || echo "No changes to commit"
           
           # 🛡️ 加上拉取变基，防止多任务并发推送时冲突报错
+          # 👇 核心：即使没有文件改动，也强制生成一个空提交，用来刷新 60 天活跃度
+          git commit --allow-empty -m "[${current}] keepalive empty commit by${{ github.event_name }}" || echo "No changes to commit"
           git pull origin master --rebase || echo "Pull failed or skipped"
           git push origin master
